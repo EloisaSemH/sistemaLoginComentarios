@@ -1,73 +1,67 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="index.php?&pg=inicio"><img src="img/Logo.png" width="50px" alt="Logo"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active mx-auto">
-          <a class="nav-link" href="index.php?&pg=inicio">Início <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item mx-auto">
-          <a class="nav-link" href="index.php?&pg=galeria">Galeria</a>
-      </li>
-      <li class="nav-item mx-auto">
-          <a class="nav-link" href="index.php?&pg=eventos">Eventos</a>
-      </li>
-      <li class="nav-item mx-auto">
-          <a class="nav-link" href="index.php?&pg=noticias">Noticias</a>
-      </li>
-      <!-- <li class="nav-item mx-auto">
-          <a class="nav-link" href="index.php?&pg=contato">Contato</a>
-      </li> -->
-    </ul>
-    <form class="form-inline my-2 my-lg-0" action="" method="POST">
-      <input class="form-control col-md-12 col-lg-7 mr-sm-2" type="search" placeholder="Pesquisar" name="pesquisa">
-      <button class="btn btn-outline-success col-md-12 col-lg-4 my-2 my-sm-0 mx-auto" type="submit" name="ir">Pesquisar</button>
-      <?php
-      if(isset($_POST['ir'])){
-        //selectlike
-        $pesquisa  = str_replace(" ", "+", $_POST['pesquisa']);
-        ?>
-        <script type="text/javascript">
-          document.location.href = "index.php?&pg=pesquisar&pagina=1&search=<?php echo $pesquisa; ?>";
-        </script>
-        <?php
-      }
-      ?>
-    </form>
+<!--Menu principal-->
+<nav data-aos="zoom-in" class="navbar navbar-expand-lg navbar-dark bg-info shadow-sm text-center" id="menu-principal">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand mx-auto d-lg-none d-xl-none" href="index.php?pg=inicio"><img src="img/logotipo-Horizontal-Cinza.png" alt="logo" width="80" height="auto"></a>
+        <a class="navbar-brand mx-auto d-none d-lg-block d-xl-block" href="index.php?pg=inicio"><img src="img/logotipo-Horizontal-Cinza.png" alt="logo" width="150" height="auto"></a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <?php if (!is_null(@$_SESSION['usuario'])) { ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?php echo @$_SESSION['usuario']; ?>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="index.php?&pg=editarusuario">Editar informações</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-light" href="index.php?&pg=enderecos">Endereços</a>
+                            <a class="dropdown-item text-light" href="index.php?&pg=cadastroendereco">Cadastrar Endereço</a>
+                            <?php if ($_SESSION['logado'] != 1) { ?>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-light" href="index.php?&pg=pedidos&pagina=1">Todos os pedidos</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-light" href="index.php?&pg=produtos&pagina=1">Produtos</a>
+                                <a class="dropdown-item text-light" href="index.php?&pg=cadastroproduto">Cadastrar produto</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-light" href="index.php?&pg=categorias">Categorias</a>
+                                <a class="dropdown-item text-light" href="index.php?&pg=cadastrocategoria">Cadastrar categoria</a>
+                                <?php if ($_SESSION['logado'] == 3) { ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-light" href="index.php?&pg=usuarios">Usuarios</a>
+                                    <a class="dropdown-item text-light" href="index.php?&pg=editarusuarioporemail">Alterar Usuario por
+                                        email</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-light" href="index.php?&pg=editarinfossite">Alterar informações do site</a>
+                            <?php }
+                            } ?>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-light" href="index.php?&pg=logout">Sair</a>
+                        </div>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?pg=login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?pg=cadastro">Cadastro</a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </nav>
     <?php
-      if ($_SESSION['logado'] == 1) {
-        // Usuário comum
-        ?>
-        <form class="form-inline my-1 mx-1 ml-2">
-          <a class="btn btn-success my-1 mr-1 col-sm-3 col-md-12 col-lg-9" href="index.php?&pg=usuariopg">Editar informações</a>
-          <a class="nav-link text-center my-1 mr-1 col-sm-3 col-md-12 col-lg-2"  href="index.php?&pg=logout">Sair</a>
-        </form>
-        <?php
-      }elseif ($_SESSION['logado'] == 2){
-        // Usuário postador
-        // Gisele é a mais linda
-        ?>
-      <form class="form-inline my-1 mx-1 ml-2">
-          <a class="btn btn-success my-1 mr-1 col-sm-3 col-md-12 col-lg-9" href="index.php?&pg=adm">Painel de postagem</a>
-          <a class="nav-link text-center my-1 mr-1 col-sm-3 col-md-12 col-lg-2" href="index.php?&pg=logout">Sair</a>
-      </form>
-      <?php
-      }elseif ($_SESSION['logado'] == 3){
-        // Webmaster
-      ?>
-      <form class="form-inline my-1 mx-1 ml-2">
-          <a class="btn btn-success my-1 mr-1 col-sm-3 col-md-12 col-lg-9" href="index.php?&pg=adm">Painel administrador</a>
-          <a class="nav-link text-center my-1 mr-1 col-sm-3 col-md-12 col-lg-2" href="index.php?&pg=logout">Sair</a>
-      </form>
-    <?php }else{ 
-      // Normal ?>
-      <form class="form-inline my-1 mx-1 ml-2">
-          <a class="btn btn-success my-1 mr-1 col-sm-3 col-md-12 col-lg-4" href="index.php?&pg=login">Entrar</a>
-          <a class="btn btn-success my-1 mr-1 col-sm-3 col-md-12 col-lg-7" href="index.php?&pg=cadastro">Cadastre-se</a>
-      </form>
-    <?php } ?>
-  </div>
-</nav>
+    if (isset($_GET['pg']) && $_GET['pg'] == 'logout') {
+    ?>
+        <script type="text/javascript">
+            alert("Até breve!");
+            document.location.href = "index.php";
+        </script>
+    <?php
+        $_SESSION['logado'] = null;
+        $_SESSION['usuario'] = null;
+        $_SESSION['us_cod'] = null;
+    }
+
+
+    ?>

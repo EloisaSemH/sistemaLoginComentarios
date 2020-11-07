@@ -43,9 +43,9 @@ if($dados['us_sexo'] == 'f'){
                         <p><a class="text-secondary" href="index.php?&pg=noticiaspendentes">Notícias pendentes</a></p>
                     <?php } ?>
                 </div>
-                <!-- Galeria -->
+                <!-- Foto -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-2">
-                    <h6 class="text-uppercase font-weight-bold text-dark">Galeria</h6>
+                    <h6 class="text-uppercase font-weight-bold text-dark">Foto</h6>
                     <hr class="teal accent-3 mb-3 mt-0 d-inline-block mx-auto" style="width: 60px;">
                     <p><a class="text-secondary" href="index.php?&pg=publicarfoto">Publicar foto</a></p>
                 </div>

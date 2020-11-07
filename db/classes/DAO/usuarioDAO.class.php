@@ -11,15 +11,15 @@ class usuarioDAO {
 
     function cadastrar(usuario $entUsuario) {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO usuario VALUES ('', :us_nome, :us_email, :us_sexo, :us_data, :us_hora, :us_ip, :us_tipo)");
+            $stmt = $this->pdo->prepare("INSERT INTO usuario VALUES (null, :us_nome, :us_email, :us_sexo, :us_data, :us_hora, :us_ip, :us_tipo)");
             $param = array(
                 ":us_nome" => $entUsuario->getUs_nome(),
                 ":us_email" => $entUsuario->getUs_email(),
                 ":us_sexo" => $entUsuario->getUs_sexo(),
-                ":us_data" => date("Y/m/d"),
+                ":us_data" => date("Y-m-d"),
                 ":us_hora" => date("H:i:s"),
                 ":us_ip" => $_SERVER["REMOTE_ADDR"],
-                ":us_tipo" => '1'
+                ":us_tipo" => 1
             );
             return $stmt->execute($param);
         } catch (PDOException $ex) {
@@ -44,14 +44,14 @@ class usuarioDAO {
         }
     }
 
-    function consultarEmail($us_email) {
+    function consultarPorEmail($us_email) {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM usuario WHERE us_email = :us_email");
             $param = array(":us_email" => $us_email);
             $stmt->execute($param);
             
             if($stmt->rowCount() > 0){
-                return TRUE;
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             }else{
                 return FALSE;
             }
@@ -62,7 +62,7 @@ class usuarioDAO {
     
     function login($us_email, $se_senha) {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM usuario INNER JOIN senha ON senha.usuario_us_cod = usuario.us_cod WHERE usuario.us_email = :us_email AND senha.se_senha = :se_senha");
+            $stmt = $this->pdo->prepare("SELECT * FROM usuario INNER JOIN senha ON senha.se_us_cod = usuario.us_cod WHERE usuario.us_email = :us_email AND senha.se_senha = :se_senha");
             $param = array(
                 ":us_email" => $us_email,
                 ":se_senha" => md5($se_senha)

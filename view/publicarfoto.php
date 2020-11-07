@@ -17,19 +17,19 @@ if ($_SESSION['logado'] != 2 && $_SESSION['logado'] != 3) {
                 <div class="form-row justify-content-center">
                     <div class="form-group col-md-8">
                         <label>Título: *</label>
-                        <input type="text" name="gal_titulo" required="" class="form-control" max="128"/>
+                        <input type="text" name="foto_titulo" required="" class="form-control" max="128"/>
                     </div>
                 </div>                          
                 <div class="form-row justify-content-center">
                     <div class="form-group col-md-8">
                         <label>Descrição:</label>
-                        <textarea style="height: 200px;" name="gal_desc" class="form-control"></textarea>
+                        <textarea style="height: 200px;" name="foto_desc" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="form-row justify-content-center">
                     <div class="form-group col-md-8">
                         <label>Inserir imagem: * </label><br/>
-                        <input type="file" name="gal_img" class="form-control" accept="image/png, image/jpeg" required=""/>
+                        <input type="file" name="foto_img" class="form-control" accept="image/png, image/jpeg" required=""/>
                     </div>
                 </div>
                 <div class="form-row justify-content-center">
@@ -53,22 +53,22 @@ if ($_SESSION['logado'] != 2 && $_SESSION['logado'] != 3) {
 </div>
 <?php
 if (isset($_POST["enviar"])) {
-    require_once ("db/classes/DAO/galeriaDAO.class.php");
-    require_once ("db/classes/Entidade/galeria.class.php");
-    $galeriaDAO = new galeriaDAO();
-    $galeria = new galeria();
+    require_once ("db/classes/DAO/fotoDAO.class.php");
+    require_once ("db/classes/Entidade/fotos.class.php");
+    $fotoDAO = new fotoDAO();
+    $fotos = new fotos();
 
-    $galeria->setGal_titulo($_POST['gal_titulo']);
+    $fotos->setGal_titulo($_POST['foto_titulo']);
 
-    if(isset($_POST['gal_desc'])){
-        $galeria->setGal_desc($_POST['gal_desc']);
+    if(isset($_POST['foto_desc'])){
+        $fotos->setGal_desc($_POST['foto_desc']);
     }else{
         $noticias->setGal_desc('NULL');
     }
     
     //Fotos
-    if(!is_null($_FILES['gal_img']['name'])){
-        if($_FILES['gal_img']['error'] == 1){
+    if(!is_null($_FILES['foto_img']['name'])){
+        if($_FILES['foto_img']['error'] == 1){
             ?>
             <script type="text/javascript">
                 alert("Desculpe, houve um erro ao enviar a imagem. Envie uma imagem diferente e tente novamente.");
@@ -76,7 +76,7 @@ if (isset($_POST["enviar"])) {
             <?php
             die();
         }else{
-            $extensao = pathinfo ($_FILES['gal_img']['name'], PATHINFO_EXTENSION);
+            $extensao = pathinfo ($_FILES['foto_img']['name'], PATHINFO_EXTENSION);
             $extensao = '.' . strtolower ($extensao);
 
             $data = date("Y/m/d");
@@ -84,12 +84,12 @@ if (isset($_POST["enviar"])) {
             $novadata = str_replace("/", "", $data);
             $novahora = str_replace(":", "", $hora);
             
-            $nomeimagem = 'gal_' . $novadata . $novahora . $extensao;
+            $nomeimagem = 'foto_' . $novadata . $novahora . $extensao;
 
-            $verf = move_uploaded_file($_FILES['gal_img']['tmp_name'], 'img/galeria/' . $nomeimagem);
+            $verf = move_uploaded_file($_FILES['foto_img']['tmp_name'], 'img/fotos/' . $nomeimagem);
 
             if($verf == 1){
-                $galeria->setGal_img($nomeimagem);
+                $fotos->setGal_img($nomeimagem);
             }else{
                 ?>
                 <script type="text/javascript">
@@ -108,7 +108,7 @@ if (isset($_POST["enviar"])) {
         <?php
     }
 
-    if ($galeriaDAO->inserirfoto($galeria)) {
+    if ($fotoDAO->inserirfoto($fotos)) {
         ?>
         <script type="text/javascript">
             alert("Foto enviada com sucesso!");

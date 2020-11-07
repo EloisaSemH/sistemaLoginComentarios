@@ -8,9 +8,8 @@ class comentarioDAO{
 
     function enviarComentario(comentario $entComentario){
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO comentario VALUES ('', :com_not_cod, :com_us_cod, :com_autor, :com_texto, :com_data, :com_hora)");
+            $stmt = $this->pdo->prepare("INSERT INTO comentario VALUES (null, :com_us_cod, :com_autor, :com_texto, :com_data, :com_hora)");
             $param = array(
-                ":com_not_cod" => $entComentario->getCom_not_cod(),
                 ":com_us_cod" => $entComentario->getCom_us_cod(),
                 ":com_autor" => $entComentario->getCom_autor(),
                 ":com_texto" => $entComentario->getCom_texto(),
@@ -71,10 +70,10 @@ class comentarioDAO{
         }
     }
 
-    function pegarComentarios($not_cod, $sessionUsu, $sessionLog){
+    function pegarComentarios($sessionUsu, $sessionLog){
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM comentario WHERE com_not_cod = :not_cod ORDER BY com_cod DESC");
-            $param = array(":not_cod" => $not_cod);
+            $stmt = $this->pdo->prepare("SELECT * FROM comentario ORDER BY com_cod DESC");
+            $param = array();
             $stmt->execute($param);
             
             if($stmt->rowCount() > 0){

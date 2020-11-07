@@ -6,21 +6,17 @@ date_default_timezone_set('America/Sao_Paulo');
 
 session_start();
 
-$pag = $_GET['url'] ?? 'inicio';
+$pag = $_GET['pg'] ?? 'inicio';
+$_SESSION['logado'] = $_SESSION['logado'] ?? null;
 
-include('view/' . $pag . '.php');
+include('view/cabecalho.php');
+include('view/menu.php');
 
-if ($pag == NULL || $pag == '') {
-    if (!isset($_SESSION['logado'])) {
-        $_SESSION['logado'] = 0;
-        $_SESSION['cod_usuario'] = '';
-    }
-?>
-    <script type="text/javascript">
-        document.location.href = "index.php?&pg=!";
-    </script>
-<?php
+if(file_exists("view/$pag.php")){
+    include('view/' . $pag . '.php');
+}else{
+    include('view/404.php');
 }
 
-// include('pags/rodape.php');
+include('view/rodape.php');
 ?>

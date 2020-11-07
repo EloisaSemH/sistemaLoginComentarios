@@ -9,19 +9,19 @@
     }
 
     if(isset($_GET['id'])){
-        $gal_cod = $_GET['id'];
+        $foto_cod = $_GET['id'];
     }else{
         ?>
         <script type="text/javascript">
-            document.location.href = "index.php?&pg=galeria&pagina=1";
+            document.location.href = "index.php?&pg=fotos&pagina=1";
         </script>
         <?php
     }
 
-    require_once ("db/classes/DAO/galeriaDAO.class.php");
-    $galeriaDAO = new galeriaDAO();
+    require_once ("db/classes/DAO/fotoDAO.class.php");
+    $fotoDAO = new fotoDAO();
 
-    $foto = $galeriaDAO->pegarFoto($gal_cod);
+    $foto = $fotoDAO->pegarFoto($foto_cod);
 ?>
 <script src="js/tinymce/tinymce.min.js"></script>
 <script>tinymce.init({ selector:'textarea' });</script>
@@ -30,29 +30,29 @@
         <div class="col-md-12">
             <form name="editarfoto" action="" method="post" enctype="multipart/form-data">
                 <div class="form-row justify-content-center">
-                    <?php if (file_exists('img/galeria/' . $foto['gal_img']) && !is_null($foto['gal_img'])) { ?>
-                        <img src="img/galeria/<?php echo $foto['gal_img']; ?>" class="d-block w-100" height="50%"/>
+                    <?php if (file_exists('img/fotos/' . $foto['foto_img']) && !is_null($foto['foto_img'])) { ?>
+                        <img src="img/fotos/<?php echo $foto['foto_img']; ?>" class="d-block w-100" height="50%"/>
                     <?php } else { ?>
-                        <img src="img/galeria/erro.jpg" class="d-block w-100" height="50%"/>
+                        <img src="img/fotos/erro.jpg" class="d-block w-100" height="50%"/>
                     <?php } ?>
                 </div> 
                 <div class="form-row justify-content-center">
                     <div class="form-group col-md-8">
                         <label>Título: *</label>
-                        <input type="text" name="gal_titulo" required="" class="form-control" max="128" value="<?php echo $foto['gal_titulo']; ?>"/>
+                        <input type="text" name="foto_titulo" required="" class="form-control" max="128" value="<?php echo $foto['foto_titulo']; ?>"/>
                     </div>
                 </div>                          
                 <div class="form-row justify-content-center">
                     <div class="form-group col-md-8">
                         <label>Descrição:</label>
-                        <textarea style="height: 200px;" name="gal_desc" class="form-control"><?php echo $foto['gal_desc']; ?></textarea>
+                        <textarea style="height: 200px;" name="foto_desc" class="form-control"><?php echo $foto['foto_desc']; ?></textarea>
                     </div>
                 </div>
-                <?php if (!file_exists('img/galeria/' . $foto['gal_img']) || is_null($foto['gal_img'])) { ?>
+                <?php if (!file_exists('img/fotos/' . $foto['foto_img']) || is_null($foto['foto_img'])) { ?>
                     <div class="form-row justify-content-center">
                         <div class="form-group col-md-3">
                             <label>Houve algum erro na imagem. Por favor, envie uma substituta: * </label><br/>
-                            <input type="file" name="gal_img" class="form-control" accept="image/png, image/jpeg" required=""/>
+                            <input type="file" name="foto_img" class="form-control" accept="image/png, image/jpeg" required=""/>
                         </div>
                     </div>
                 <?php } ?>
@@ -73,17 +73,17 @@
                 </div>            
 <?php
 if (isset($_POST["atualizar"])) {
-    require_once ("db/classes/Entidade/galeria.class.php");
-    $galeria = new galeria();
+    require_once ("db/classes/Entidade/fotos.class.php");
+    $fotos = new fotos();
 
-    $galeria->setGal_cod($gal_cod);
-    $galeria->setGal_titulo($_POST['gal_titulo']);
-    $galeria->setGal_desc($_POST['gal_desc']);
-    $galeria->setGal_img($foto['gal_img']);
+    $fotos->setGal_cod($foto_cod);
+    $fotos->setGal_titulo($_POST['foto_titulo']);
+    $fotos->setGal_desc($_POST['foto_desc']);
+    $fotos->setGal_img($foto['foto_img']);
 
-    if(isset($_FILES['gal_img'])){
-        if(!is_null($_FILES['gal_img']['name'])){
-            if($_FILES['gal_img']['error'] == 1){
+    if(isset($_FILES['foto_img'])){
+        if(!is_null($_FILES['foto_img']['name'])){
+            if($_FILES['foto_img']['error'] == 1){
                 ?>
                 <script type="text/javascript">
                     alert("Desculpe, houve um erro ao enviar a imagem. Envie uma imagem diferente e tente novamente.");
@@ -91,7 +91,7 @@ if (isset($_POST["atualizar"])) {
                 <?php
                 die();
             }else{
-                $imagem = $_FILES['gal_img'];
+                $imagem = $_FILES['foto_img'];
 
                 $data = date("Y/m/d");
                 $hora = date("H:i:s");
@@ -102,21 +102,21 @@ if (isset($_POST["atualizar"])) {
                 $novadata = str_replace("/", "", $data);
                 $novahora = str_replace(":", "", $hora);
                 
-                $nomeimagem = 'gal_' . $novadata . $novahora . $extensao;
+                $nomeimagem = 'foto_' . $novadata . $novahora . $extensao;
 
-                if(!is_null($foto['gal_img']) && $foto['gal_img'] == 'NULL'){
-                    unlink('img/galeria/' . $foto['gal_img']);
+                if(!is_null($foto['foto_img']) && $foto['foto_img'] == 'NULL'){
+                    unlink('img/fotos/' . $foto['foto_img']);
                 }
 
-                $verf = move_uploaded_file($imagem['tmp_name'], 'img/galeria/' . $nomeimagem);
+                $verf = move_uploaded_file($imagem['tmp_name'], 'img/fotos/' . $nomeimagem);
 
                 if($verf == 1){
-                    $galeria->setgal_img($nomeimagem);
+                    $fotos->setfoto_img($nomeimagem);
                 }else{
                     ?>
                     <script type="text/javascript">
                         alert("Ocorreu algum erro ao enviar a imagem, por favor, tente novamente");
-                        document.location.href = "index.php?&pg=editarfoto&id=<?php echo $gal_cod; ?>";
+                        document.location.href = "index.php?&pg=editarfoto&id=<?php echo $foto_cod; ?>";
                     </script>
                     <?php
                     die();
@@ -125,11 +125,11 @@ if (isset($_POST["atualizar"])) {
         }
     }
 
-    if ($galeriaDAO->atualizarFoto($galeria)) {
+    if ($fotoDAO->atualizarFoto($fotos)) {
         ?>
         <script type="text/javascript">
             alert("Foto atualizada com sucesso!");
-            document.location.href = "index.php?&pg=foto&id=<?php echo $gal_cod; ?>";
+            document.location.href = "index.php?&pg=foto&id=<?php echo $foto_cod; ?>";
         </script>
         <?php
     }else{
@@ -154,12 +154,12 @@ if(isset($_POST['excluir'])){
     <?php 
 }
 if(isset($_POST['confirmaexcluirSIM'])){
-    require_once ("db/classes/Entidade/galeria.class.php");
-    $galeria = new galeria();
+    require_once ("db/classes/Entidade/fotos.class.php");
+    $fotos = new fotos();
 
-    $galeria->setGal_cod($gal_cod);
+    $fotos->setGal_cod($foto_cod);
 
-    if ($galeriaDAO->excluirFoto($galeria)) {
+    if ($fotoDAO->excluirFoto($fotos)) {
         ?>
         <script type="text/javascript">
             alert("Foto excluida com sucesso!");
@@ -177,7 +177,7 @@ if(isset($_POST['confirmaexcluirSIM'])){
 ?>
                 <div class="form-row justify-content-center">
 					<div class="form-group col-md-3 text-center">
-                        <a class="btn btn-link" href="index.php?&pg=foto&id=<?php echo $gal_cod; ?>">Voltar</a>
+                        <a class="btn btn-link" href="index.php?&pg=foto&id=<?php echo $foto_cod; ?>">Voltar</a>
 					</div>
 				</div>
             </form>

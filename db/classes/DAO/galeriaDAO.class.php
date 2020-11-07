@@ -1,19 +1,19 @@
 <?php
 require_once ("conexao.class.php");
-class galeriaDAO {
+class fotoDAO {
 
     function __construct() {
         $this->con = new Conexao();
         $this->pdo = $this->con->Connect();
     }
 
-    function inserirFoto(galeria $entGaleria){
+    function inserirFoto(fotos $entFoto){
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO galeria VALUES ('', :gal_img, :gal_titulo, :gal_desc)");
+            $stmt = $this->pdo->prepare("INSERT INTO fotos VALUES ('', :foto_img, :foto_titulo, :foto_desc)");
             $param = array(
-                ":gal_img" => $entGaleria->getGal_img(),
-                ":gal_titulo" => $entGaleria->getGal_titulo(),
-                ":gal_desc" => $entGaleria->getGal_desc()
+                ":foto_img" => $entFoto->getGal_img(),
+                ":foto_titulo" => $entFoto->getGal_titulo(),
+                ":foto_desc" => $entFoto->getGal_desc()
             );
             return $stmt->execute($param);
         } catch (PDOException $ex) {
@@ -21,14 +21,14 @@ class galeriaDAO {
         }
     }
 
-    function atualizarFoto(galeria $entGaleria){
+    function atualizarFoto(fotos $entFoto){
         try {
-            $stmt = $this->pdo->prepare("UPDATE galeria SET gal_img = :gal_img, gal_titulo = :gal_titulo, gal_desc = :gal_desc WHERE gal_cod = :gal_cod");
+            $stmt = $this->pdo->prepare("UPDATE fotos SET foto_img = :foto_img, foto_titulo = :foto_titulo, foto_desc = :foto_desc WHERE foto_cod = :foto_cod");
             $param = array(
-                ":gal_img" => $entGaleria->getGal_img(),
-                ":gal_titulo" => $entGaleria->getGal_titulo(),
-                ":gal_desc" => $entGaleria->getGal_desc(),
-                ":gal_cod" => $entGaleria->getGal_cod()
+                ":foto_img" => $entFoto->getGal_img(),
+                ":foto_titulo" => $entFoto->getGal_titulo(),
+                ":foto_desc" => $entFoto->getGal_desc(),
+                ":foto_cod" => $entFoto->getGal_cod()
             );
             return $stmt->execute($param);
 
@@ -37,11 +37,11 @@ class galeriaDAO {
         }
     }
 
-    function excluirFoto(galeria $entGaleria){
+    function excluirFoto(fotos $entFoto){
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM galeria WHERE gal_cod = :gal_cod");
+            $stmt = $this->pdo->prepare("DELETE FROM fotos WHERE foto_cod = :foto_cod");
             $param = array(
-                ":gal_cod" => $entGaleria->getGal_cod()
+                ":foto_cod" => $entFoto->getGal_cod()
             );
             return $stmt->execute($param);
 
@@ -52,8 +52,8 @@ class galeriaDAO {
 
     function contarFotos(){
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM galeria ORDER BY :orderby DESC");
-            $param = array(":orderby" => 'gal_cod');
+            $stmt = $this->pdo->prepare("SELECT * FROM fotos ORDER BY :orderby DESC");
+            $param = array(":orderby" => 'foto_cod');
             $stmt->execute($param);
             
             if($stmt->rowCount() > 0){
@@ -67,10 +67,10 @@ class galeriaDAO {
         }
     }
 
-    function pegarFoto($gal_cod){
+    function pegarFoto($foto_cod){
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM galeria WHERE gal_cod = :gal_cod");
-            $param = array(":gal_cod" => $gal_cod);
+            $stmt = $this->pdo->prepare("SELECT * FROM fotos WHERE foto_cod = :foto_cod");
+            $param = array(":foto_cod" => $foto_cod);
             $stmt->execute($param);
             
             if($stmt->rowCount() > 0){
@@ -87,7 +87,7 @@ class galeriaDAO {
 
     function pegarFotos($limite, $quantpag){
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM galeria ORDER BY gal_cod DESC LIMIT :limite, :quantpag");
+            $stmt = $this->pdo->prepare("SELECT * FROM fotos ORDER BY foto_cod DESC LIMIT :limite, :quantpag");
             $param = array(":limite" => $limite, ":quantpag" => $quantpag);
             $stmt->execute($param);
             
@@ -104,22 +104,22 @@ class galeriaDAO {
                     if ($celconstruida <= $cel) {
                         echo '<div class="conteiner my-3 "><div class="card-columns">';
                         while ($dados = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo '<div class="card" data-toggle="modal" data-target="#' . $dados['gal_cod'] . '">';
-                            if (file_exists('img/galeria/' . $dados['gal_img']) && !is_null($dados['gal_img'])) {
-                                echo '<img src="img/galeria/'. $dados['gal_img'] . '" alt="' . $dados['gal_titulo'] . '" class="card-img-top">';
+                            echo '<div class="card" data-toggle="modal" data-target="#' . $dados['foto_cod'] . '">';
+                            if (file_exists('img/fotos/' . $dados['foto_img']) && !is_null($dados['foto_img'])) {
+                                echo '<img src="img/fotos/'. $dados['foto_img'] . '" alt="' . $dados['foto_titulo'] . '" class="card-img-top">';
                             } else {
-                                echo '<img src="img/galeria/semfoto.jpg" class="card-img-top" alt="Sem foto">';
+                                echo '<img src="img/fotos/semfoto.jpg" class="card-img-top" alt="Sem foto">';
                             }
-                            echo '</div><div class="modal fade" id="' . $dados['gal_cod'] . '" tabindex="-1" role="dialog" aria-labelledby="' . $dados['gal_cod'] . '" aria-hidden="true"><div class="modal-dialog" role="document">';
-                            echo '<div class="modal-content"><div class="modal-header"><a href="index.php?&pg=foto&id=' . $dados['gal_cod'] . '"><h5 class="modal-title text-dark" id="' . $dados['gal_cod'] . '">' . $dados['gal_titulo'] . '</h5>';
-                            echo '<a/><button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><a href="index.php?&pg=foto&id=' . $dados['gal_cod'] . '" class="text-center text-dark">';
-                            if (file_exists('img/galeria/' . $dados['gal_img']) && !is_null($dados['gal_img'])) {
-                                echo '<img src="img/galeria/'. $dados['gal_img'] . '" alt="' . $dados['gal_titulo'] . '" class="img-fluid">';
+                            echo '</div><div class="modal fade" id="' . $dados['foto_cod'] . '" tabindex="-1" role="dialog" aria-labelledby="' . $dados['foto_cod'] . '" aria-hidden="true"><div class="modal-dialog" role="document">';
+                            echo '<div class="modal-content"><div class="modal-header"><a href="index.php?&pg=foto&id=' . $dados['foto_cod'] . '"><h5 class="modal-title text-dark" id="' . $dados['foto_cod'] . '">' . $dados['foto_titulo'] . '</h5>';
+                            echo '<a/><button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><a href="index.php?&pg=foto&id=' . $dados['foto_cod'] . '" class="text-center text-dark">';
+                            if (file_exists('img/fotos/' . $dados['foto_img']) && !is_null($dados['foto_img'])) {
+                                echo '<img src="img/fotos/'. $dados['foto_img'] . '" alt="' . $dados['foto_titulo'] . '" class="img-fluid">';
                             } else {
-                                echo '<img src="img/galeria/semfoto.jpg" class="img-fluid" alt="Sem foto">';
+                                echo '<img src="img/fotos/semfoto.jpg" class="img-fluid" alt="Sem foto">';
                             }
-                            if(!is_null($dados['gal_desc'])){
-                                echo  '<p class="text-center text-dark mt-1" style="text-decoration: none">' . $dados['gal_desc'] . '</p>';
+                            if(!is_null($dados['foto_desc'])){
+                                echo  '<p class="text-center text-dark mt-1" style="text-decoration: none">' . $dados['foto_desc'] . '</p>';
                             }
                             echo '</a></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button></div></div></div></div>';
 

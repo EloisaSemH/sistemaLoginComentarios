@@ -68,7 +68,7 @@ if (isset($_POST["registrar"])) {
         $usuario->setUs_nome($_POST["usNome"]);
         $usuario->setUs_email($_POST["usEmail"]);
         $usuario->setUs_sexo($_POST["slSexo"]);
-        if (!$usuarioDAO->consultarEmail($_POST['usEmail'])) {
+        if (!$usuarioDAO->consultarPorEmail($_POST['usEmail'])) {
             if ($usuarioDAO->cadastrar($usuario)) {
                 $codUsu = $usuarioDAO->consultarCodUsuario($_POST['usEmail']);
                 $senha->setSe_senha($_POST['usSenhaRep']);

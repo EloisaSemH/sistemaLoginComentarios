@@ -39,18 +39,17 @@ $usuario = new usuario();
 if (isset($_POST['entrar'])) {
     if ($usuarioDAO->login($_POST['usEmail'], $_POST['usSenha'])) {
 
-        $tipo = $usuarioDAO->consultarTipoUsuario($_POST['usEmail']);
-        $cod = $usuarioDAO->consultarCodUsuario($_POST['usEmail']);
-        $_SESSION['cod_usuario'] = $cod;
-
+        $dados = $usuarioDAO->consultarPorEmail($_POST['usEmail']);
+        $_SESSION['cod_usuario'] = $dados['us_cod'];
+        $_SESSION['usuario'] = $dados['us_nome'];
         
-        if($tipo == 1){
+        if($dados['us_tipo'] == 1){
             // Usuário comum
             $_SESSION['logado'] = 1;
-        }elseif($tipo == 2){
+        }elseif($dados['us_tipo'] == 2){
             // Usuário postador
             $_SESSION['logado'] = 2;
-        }elseif($tipo == 3){
+        }elseif($dados['us_tipo'] == 3){
             // Webmaster
             $_SESSION['logado'] = 3;
         }else{

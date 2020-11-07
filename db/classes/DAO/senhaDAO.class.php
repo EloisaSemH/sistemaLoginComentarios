@@ -40,7 +40,7 @@ class senhaDAO {
 
     public function redefinirSenha($us_cod, $se_senha) {
         try {
-            $stmt = $this->pdo->prepare("UPDATE senha set se_senha = :se_senha WHERE usuario_us_cod = :us_cod");
+            $stmt = $this->pdo->prepare("UPDATE senha set se_senha = :se_senha WHERE se_us_cod = :us_cod");
 
             $param = array(
                 ":us_cod" => $us_cod,
