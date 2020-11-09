@@ -1,6 +1,6 @@
 <?php
 #Criação da classe comentario
-class comentario{
+class Comentario{
     private $com_cod;
     private $com_not_cod;
     private $com_us_cod;

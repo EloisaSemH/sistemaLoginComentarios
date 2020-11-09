@@ -12,11 +12,8 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo @$_SESSION['usuario']; ?>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item text-light" href="index.php?&pg=editarusuario">Editar informações</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-light" href="index.php?&pg=enderecos">Endereços</a>
-                            <a class="dropdown-item text-light" href="index.php?&pg=cadastroendereco">Cadastrar Endereço</a>
+                        <div class="dropdown-menu dropdown-menu-right bg-info" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-light" href="index.php?&pg=usuariopg">Editar informações</a>
                             <?php if ($_SESSION['logado'] != 1) { ?>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-light" href="index.php?&pg=pedidos&pagina=1">Todos os pedidos</a>
@@ -60,7 +57,7 @@
     <?php
         $_SESSION['logado'] = null;
         $_SESSION['usuario'] = null;
-        $_SESSION['us_cod'] = null;
+        $_SESSION['cod_usuario'] = null;
     }
 
 

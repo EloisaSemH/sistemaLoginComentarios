@@ -1,6 +1,6 @@
 <?php
 require_once ("conexao.class.php");
-class usuarioDAO {
+class UsuarioDAO {
 
     // private $us_email;
 
