@@ -86,12 +86,12 @@ class ComentarioDAO
                     <div class="col-12">';
                     if (!is_null($sessionUsu) && $sessionUsu === $consulta['com_us_cod'] || $sessionLog >= 2) {
                         echo '<form action="" method="post" class="float-right"><input type="hidden" value="' . $consulta['com_cod'] . '" name="codComent"/>
-                        <button name="excluirComentario" class="btn btn-danger text-dark font-weight-bold">Excluir</button></form>';
+                        <button name="excluirComentario" class="btn btn-danger font-weight-bold">Excluir</button></form>';
                     }
-                    echo '<img src="img/usuarios/' . $foto['foto_img'] . '" alt="' . $foto['foto_desc'] . '" class="img-thumbnail float-left w-25 mr-3 mb-3">
+                    echo '<img src="img/usuarios/' . $foto['foto_img'] . '" alt="' . $foto['foto_desc'] . '" class="img-thumbnail rounded float-left w-25 mr-3 mb-3">
                     <p class="text-info font-weight-bold">' . $consulta['com_autor'] . '</br>
-                    <span class="text-dark font-weight-light font-italic">' . $dataComent . ' às ' . $horaComent . '</span></p>
-                    <p class="text-dark">' . $consulta['com_texto'] . '</p>
+                    <span class="font-weight-light font-italic">' . $dataComent . ' às ' . $horaComent . '</span></p>
+                    <p class="k">' . $consulta['com_texto'] . '</p>
                     </div></div>';
                 }
             } else {

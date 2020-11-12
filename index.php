@@ -8,6 +8,7 @@ session_start();
 
 $pag = $_GET['pg'] ?? 'inicio';
 $_SESSION['logado'] = $_SESSION['logado'] ?? null;
+$_SESSION['cod_usuario'] = $_SESSION['cod_usuario'] ?? null;
 
 include('view/cabecalho.php');
 include('view/menu.php');

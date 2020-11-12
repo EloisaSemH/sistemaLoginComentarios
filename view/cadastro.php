@@ -9,10 +9,11 @@ require_once("db/classes/Entidade/senha.class.php");
 $senhaDAO = new senhaDAO;
 $senha = new senha;
 ?>
-<div class="container mt-4">
-    <div class="row justify-content-center">
+<div id="index">
+<div class="container">
+    <div class="row justify-content-center center text-left">
         <div class="col-lg-6 col-md-8 col-sm-12">
-            <form name="cadastro" action="" method="post" enctype="multipart/form-data">
+            <form name="cadastro" action="" method="post" enctype="multipart/form-data" class="bg-dark p-4 text-light rounded shadow">
                 <div class="form-group">
                     <label>Nome completo:</label>
                     <input type="text" maxlength='50' name="usNome" required="" class="form-control" />
@@ -45,11 +46,12 @@ $senha = new senha;
                     <input type="file" name="foto_img" class="form-control-file" accept="image/png, image/jpeg, image/jpg" />
                 </div>
                 <div class="form-group text-center">
-                    <input type="submit" value="Registrar" id="registrar" name="registrar" class="btn btn-outline-dark">
+                    <input type="submit" value="Registrar" id="registrar" name="registrar" class="btn btn-outline-info">
                 </div>
         </div>
         </form>
     </div>
+</div>
 </div>
 <?php
 if (isset($_POST["registrar"])) {

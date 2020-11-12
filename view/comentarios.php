@@ -23,7 +23,7 @@
                     <textarea name="com_texto" class="form-control" required=""></textarea>
                 </div>
                 <div class="form-group text-center">
-                    <input type="submit" value="Enviar comentário" id="enviar" name="enviar" class="btn btn-outline-dark">
+                    <input type="submit" value="Enviar comentário" id="enviar" name="enviar" class="btn btn-outline-info">
                 </div>
             </form>
         </div>
